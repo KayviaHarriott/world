@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>World Database Lookup</title>
+		
+		
+		<!--Online dependencies-->
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Hepta+Slab&display=swap" rel="stylesheet">
+		
+		<!-- you can modify this as needed or to your preference -->
+		<link href="world.css" type="text/css" rel="stylesheet" />
+
+		<!-- you write this -->
+		<script src="world.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<header>
+			<h1>World Database Lookup</h1>
+		</header>
+
+		<main>
+			<div id="controls">
+				<!--
+				<label for="country">Country:</label>
+				<input id="country" type="search" name="country" placeholder="Enter country name" />
+				<button id="lookups">Lookup</button>
+				<button id="lookup-cities">Lookup Cities</button> -->
+				<label for="country">Country:</label>
+				<input id="country" type="search" name="country" placeholder="Enter country name" />
+				<button id="lookups">Lookup</button>
+				<button id="lookup-citiess">Lookup Cities</button>
+			</div>
+			
+			<div id="result">
+				<!-- countries will appear here -->
+				
+			</div>
+		</main>
+		<script>
+
+
+
+    function requestCountry(city = ""){
+        let countryI = $("#country").val();
+        countryI = countryI.trim();
+        
+        $.ajax("world.php", {
+            method: 'GET',
+            data: {
+                country: countryI,
+                context: city
+            }
+        }).done(function(response){
+            let parseHTML = response;
+            $("#result").html(parseHTML);
+        }).fail(function(){
+            alert('There was an issue with the request.');
+        });
+	}
+	
+	function requestCountry2(city = ""){
+        let countryI = $("#country").val();
+        countryI = countryI.trim();
+        
+        $.ajax("worldC.php", {
+            method: 'GET',
+            data: {
+                country: countryI,
+                context: city
+            }
+        }).done(function(response){
+            let parseHTML = response;
+            $("#result").html(parseHTML);
+        }).fail(function(){
+            alert('There was an issue with the request.');
+        });
+    }
+    
+    $("#lookups").click(function(){
+        requestCountry2();
+    });
+    
+    $("#countrys").keypress(function(){
+        requestCountry();
+        
+    });
+    
+    $("#lookup-citiess").click(function(){
+        requestCountry("cities");
+	});
+	
+		</script>
+	</body>
+</html>
